@@ -15,20 +15,25 @@ class CardComponents extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(cardInfo.image),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              cardInfo.title,
-              style: const TextStyle(color: Colors.lightBlue),
+            Container(
+              width: 60,
+              height: 60,
+              child: Image.network(cardInfo.image),
             ),
             const SizedBox(
               height: 5,
             ),
             Text(
-              cardInfo.subtitle,
-              style: const TextStyle(color: Colors.lightBlue),
+              cardInfo.name,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              cardInfo.email,
+              style: const TextStyle(
+                color: Color(0xFF6F35A5),
+              ),
             ),
           ],
         ),

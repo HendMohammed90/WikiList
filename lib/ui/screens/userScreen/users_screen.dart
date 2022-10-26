@@ -16,7 +16,7 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
-  late Future<List<User>> _userData;
+  late Future<List<Data>> _userData;
 
   @override
   void initState() {
@@ -35,19 +35,19 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   Widget _getUserGrid() {
-    return FutureBuilder<List<User>>(
+    return FutureBuilder<List<Data>>(
       future: _userData,
       builder: (context, snapshote) {
         if (snapshote.hasData) {
           return GridView.count(
-            crossAxisCount: 2,
+            crossAxisCount: 3,
             children: List.generate(
               snapshote.data!.length,
               (i) => CardComponents(
                 cardInfo: CardInfoModel(
-                  title: snapshote.data![i].firstName,
-                  subtitle: snapshote.data![i].lastName,
-                  image: snapshote.data![i].img,
+                  name: (snapshote.data![i].name).toString(),
+                  email: (snapshote.data![i].email).toString(),
+                  image: (snapshote.data![i].profilepicture).toString(),
                 ),
               ),
             ),

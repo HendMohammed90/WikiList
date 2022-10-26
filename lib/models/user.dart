@@ -1,19 +1,76 @@
-class User {
-  int id;
-  String firstName, lastName, email, img;
-  User(
-      {required this.id,
-      required this.firstName,
-      required this.lastName,
-      required this.email,
-      required this.img});
+class UserModel {
+  int? page;
+  int? perPage;
+  int? totalrecord;
+  int? totalPages;
+  List<Data>? data;
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-        id: json['id'],
-        firstName: json['first_name'],
-        lastName: json['last_name'],
-        email: json['email'],
-        img: json['avatar']);
+  UserModel(
+      {this.page, this.perPage, this.totalrecord, this.totalPages, this.data});
+
+  UserModel.fromJson(Map<String, dynamic> json) {
+    page = json['page'];
+    perPage = json['per_page'];
+    totalrecord = json['totalrecord'];
+    totalPages = json['total_pages'];
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        data!.add(new Data.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['page'] = this.page;
+    data['per_page'] = this.perPage;
+    data['totalrecord'] = this.totalrecord;
+    data['total_pages'] = this.totalPages;
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Data {
+  String? id;
+  int? UserId;
+  String? name;
+  String? email;
+  String? profilepicture;
+  String? location;
+  String? createdat;
+
+  Data(
+      {this.id,
+      this.UserId,
+      this.name,
+      this.email,
+      this.profilepicture,
+      this.location,
+      this.createdat});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    id = json['$id'];
+    UserId = json['UserId'];
+    name = json['name'];
+    email = json['email'];
+    profilepicture = json['profilepicture'];
+    location = json['location'];
+    createdat = json['createdat'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['$id'] = this.id;
+    data['UserId'] = this.UserId;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['profilepicture'] = this.profilepicture;
+    data['location'] = this.location;
+    data['createdat'] = this.createdat;
+    return data;
   }
 }

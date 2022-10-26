@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wiki_app/repos/login.dart';
 import '../../../models/req_model.dart';
-import '../../../models/respons_model.dart';
+import '../../../models/response.dart';
 import '../../components/background.dart';
+import '../error_screen.dart';
 import '../userScreen/users_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,8 +17,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late Future<dynamic> _loginResponce;
-  late String tokenItem = '';
+  LoginModel? _loginResponse;
+  String tokenItem = '';
 
   late LoginReqModel reqModel;
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
@@ -115,27 +118,28 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 16.0),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // print(reqModel.toJson());
-                    _loginResponce = Login().loginn(reqModel).then((value) {
-                      if (value != null) {
-                        print(value);
-                        if (value.token.isNotEmpty) {
-                          tokenItem = value.token;
-                          print(value.token);
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => UserScreen(
-                                    token: tokenItem,
-                                  )));
-                        } else {
-                          print(value.error);
-
-                          var snackBar = SnackBar(content: Text(value.error));
-                          // Step 3
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        }
-                      }
-                    });
+                    _loginResponse = await Login().loginn(reqModel);
+                    if (_loginResponse!.data!.token != null) {
+                      print('Success');
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => UserScreen(
+                            token: tokenItem,
+                          ),
+                        ),
+                      );
+                    } else {
+                      // var snackBar =
+                      //     const SnackBar(content: Text('Error has happend'));
+                      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ErrorScreen(),
+                        ),
+                      );
+                    }
                   },
                   child: Text(
                     "Login".toUpperCase(),

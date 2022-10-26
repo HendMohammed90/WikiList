@@ -1,9 +1,9 @@
 class CardInfoModel {
-  String title, subtitle, image;
+  String name, email, image;
   Function? onCardClick;
   CardInfoModel(
-      {required this.title,
-      required this.subtitle,
+      {required this.name,
+      required this.email,
       required this.image,
       this.onCardClick});
 }
